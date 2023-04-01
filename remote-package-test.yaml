@@ -1,7 +1,7 @@
 substitutions:
-  device_name: gosund-sw5-example
+  device_name: gosund-sw5-example-remote
   device_friendly_name: "Gosund SW5 Example"
 
 packages:
   secrets: !include secrets_substitutions.yaml
-  base: !include devices/gosund-sw5.yaml
+  base: github://broccoliboy/esphome-config/devices/gosund-sw2.yaml@main

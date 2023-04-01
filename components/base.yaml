@@ -1,0 +1,22 @@
+substitutions:
+  log_level: none
+  log_baud_rate: '115200'
+  flash_write_interval: 10min
+
+esphome:
+  name: ${device_name}
+  friendly_name: ${device_friendly_name}
+  build_path: ./build/${device_name}
+
+preferences:
+  flash_write_interval: ${flash_write_interval}
+
+packages:
+  wifi: !include wifi.yaml
+  api: !include api.yaml
+  ota: !include ota.yaml
+  day_night: !include day_night.yaml
+  status_sensor: !include status.yaml       
+  restart_button: !include restart.yaml
+  version_sensor: !include version.yaml
+  time: !include time.yaml

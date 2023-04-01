@@ -2,7 +2,5 @@ substitutions:
   platform: esp8266
 
 esp8266:
+  board: ${board}
   restore_from_flash: false
-
-packages:
-  base:   !include base.yaml

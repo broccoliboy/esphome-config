@@ -1,5 +1,6 @@
 packages:
-  base: !include ../base/esp01_1m.yaml
+  hardware: !include ../hardware/esp01_1m.yaml
+  base: !include ../components/base.yaml
 
 status_led:
   pin:
@@ -35,6 +36,6 @@ binary_sensor:
       inverted: true
     on_click:
       min_length: 50ms
-      max_length: 350ms
+      max_length: 500ms
       then:
         - switch.toggle: switch0

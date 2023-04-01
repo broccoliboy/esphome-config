@@ -4,12 +4,12 @@
 
 Top level directory contains individual node configs and `secrets.yaml`.
 
-
-* `base`
-    * Platform, board, and common config options for all devices
+* `devices`
+    * Full config for specific devices
+* `hardware`
+    * Platform and board configs
 * `components`
     * Component configurations (wifi, ota, etc.)
-* `devices`
-    * Base config for specific devices
+
 
 
