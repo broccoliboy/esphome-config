@@ -1,0 +1,5 @@
+# Gitignore settings for ESPHome
+/.esphome/
+/.vscode/
+/build/
+/secrets.yaml

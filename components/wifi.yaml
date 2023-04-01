@@ -1,0 +1,27 @@
+wifi:
+  networks:
+    - ssid: ${wifi_ssid}
+      password: ${wifi_password}
+    - ssid: ${wifi_ssid_fallback}
+      password: ${wifi_password_fallback}
+  
+#   ap:
+#     ssid: ${ap_ssid}
+#     password: ${ap_password}
+
+# captive_portal:
+
+sensor:
+  - platform: wifi_signal
+    name: WiFi Signal
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: IP
+    ssid:
+      name: SSID
+    bssid:
+      name: BSSID
+    mac_address:
+      name: MAC
