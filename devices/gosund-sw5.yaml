@@ -1,7 +1,3 @@
-substitutions:
-  device_name: "gosund-sw5"
-  device_friendly_name: "Gosund SW5"
-
 packages:
   hardware: !include ../hardware/esp01_1m.yaml
   base: !include ../components/base.yaml

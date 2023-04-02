@@ -4,8 +4,8 @@ substitutions:
   flash_write_interval: 10min
 
 esphome:
-  name: ${device_name}
-  friendly_name: ${device_friendly_name}
+  name: ${name}
+  friendly_name: ${friendly_name}
 
 preferences:
   flash_write_interval: ${flash_write_interval}

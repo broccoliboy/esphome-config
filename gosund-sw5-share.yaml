@@ -1,5 +1,15 @@
+substitutions:
+  name: "gosund-sw5"
+  friendly_name: "Gosund SW5"
+  # Define these in secrets.yaml and uncomment the following after adopting the device
+  # wifi_ssid: !secret wifi_ssid
+  # wifi_password: !secret wifi_password
+  # wifi_ssid_fallback: !secret wifi_ssid_fallback
+  # wifi_password_fallback: !secret wifi_password_fallback
+  # api_key: !secret api_key
+  # ota_password: !secret ota_password
+
 packages:
-  secrets: !include secrets_substitutions.yaml
   base: !include devices/gosund-sw5.yaml
   
 esphome:
@@ -10,3 +20,4 @@ esphome:
 
 dashboard_import:
   package_import_url: github://broccoliboy/esphome-config/gosund-sw5-share.yaml
+  import_full_config: true
