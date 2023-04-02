@@ -6,7 +6,6 @@ substitutions:
 esphome:
   name: ${device_name}
   friendly_name: ${device_friendly_name}
-  build_path: ./build/${device_name}
 
 preferences:
   flash_write_interval: ${flash_write_interval}
