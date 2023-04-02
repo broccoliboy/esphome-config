@@ -16,7 +16,7 @@ packages:
   api: !include api.yaml
   ota: !include ota.yaml
   day_night: !include day_night.yaml
-  status_sensor: !include status.yaml       
-  restart_button: !include restart.yaml
-  version_sensor: !include version.yaml
+  status: !include status.yaml       
+  restart: !include restart.yaml
+  version: !include version.yaml
   time: !include time.yaml
