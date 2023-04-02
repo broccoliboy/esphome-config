@@ -23,4 +23,4 @@ packages:
   base:
     url: https://github.com/broccoliboy/esphome-config
     file: "devices/gosund-sw5.yaml"
-    refresh: 1d # optional
+    refresh: 1d
