@@ -1,0 +1,12 @@
+packages:
+  secrets: !include secrets_substitutions.yaml
+  base: !include devices/gosund-sw5.yaml
+  
+esphome:
+  name_add_mac_suffix: true
+  project:
+    name: broccoliboy.gosund-sw5
+    version: "1.0"
+
+dashboard_import:
+  package_import_url: github://broccoliboy/esphome-config/gosund-sw5-share.yaml
