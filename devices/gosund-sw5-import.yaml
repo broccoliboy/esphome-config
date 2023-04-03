@@ -1,22 +1,22 @@
-substitutions:
-  name: 
-  friendly_name: "Gosund SW5"
-  # Define these in secrets.yaml
-  wifi_ssid: !secret wifi_ssid
-  wifi_password: !secret wifi_password
-  wifi_ssid_fallback: !secret wifi_ssid_fallback
-  wifi_password_fallback: !secret wifi_password_fallback
-  api_key: !secret api_key
-  ota_password: !secret ota_password
-packages:
-  base:
-    url: https://github.com/broccoliboy/esphome-config
-    file: "devices/gosund-sw5.yaml"
-    refresh: 1d
+# substitutions:
+#   name: 
+#   friendly_name: "Gosund SW5"
+#   # Define these in secrets.yaml
+#   wifi_ssid: !secret wifi_ssid
+#   wifi_password: !secret wifi_password
+#   wifi_ssid_fallback: !secret wifi_ssid_fallback
+#   wifi_password_fallback: !secret wifi_password_fallback
+#   api_key: !secret api_key
+#   ota_password: !secret ota_password
+# packages:
+#   base:
+#     url: https://github.com/broccoliboy/esphome-config
+#     file: "devices/gosund-sw5.yaml"
+#     refresh: 1d
 
-wifi:
-  use_address: ${name}-${mac_suffix}.local
+# wifi:
+#   use_address: ${name}-${mac_suffix}.local
 
-dashboard_import:
-  package_import_url: none
-  import_full_config: true
+# dashboard_import:
+#   package_import_url: none
+#   import_full_config: true

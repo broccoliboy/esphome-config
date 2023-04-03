@@ -1,5 +1,3 @@
-# substitutions:
-#   friendly_name: "Gosund SW5"
-
 packages:
-  base: !include devices/gosund-sw5.yaml
+  secrets: !include secrets_substitutions.yaml
+  base: !include devices/gosund-sw5-template.yaml
