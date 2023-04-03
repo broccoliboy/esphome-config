@@ -1,3 +1,0 @@
-packages:
-  base: !include devices/gosund-sw5-template.yaml
-  secrets: !include secrets_substitutions.yaml

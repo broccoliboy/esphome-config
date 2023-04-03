@@ -1,0 +1,10 @@
+packages:
+  secrets: !include secrets_substitutions.yaml
+  base: !include devices/gosund-sw5.yaml
+
+esphome:
+  name_add_mac_suffix: true
+
+dashboard_import:
+  package_import_url: github://broccoliboy/esphome-config/devices/${name}-import.yaml@main
+  import_full_config: true

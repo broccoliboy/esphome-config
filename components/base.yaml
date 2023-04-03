@@ -6,11 +6,6 @@ substitutions:
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  name_add_mac_suffix: true
-
-dashboard_import:
-  package_import_url: github://broccoliboy/esphome-config/devices/${name}-template.yaml@main
-  import_full_config: false
 
 preferences:
   flash_write_interval: ${flash_write_interval}
