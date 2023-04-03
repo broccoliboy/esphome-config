@@ -1,0 +1,17 @@
+substitutions:
+  # Replace name with yaml file base name after adopting
+  name: gosund-sw2-<MAC_SUFFIX>
+
+  # Friendly name can be anything or leave blank for default
+  friendly_name: 
+
+  # Make sure the following secrets are defined in your global secrets.yaml file
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+  wifi_ssid_fallback: !secret wifi_ssid_fallback
+  wifi_password_fallback: !secret wifi_password_fallback
+  api_key: !secret api_key
+  ota_password: !secret ota_password
+
+packages:
+  broccoliboy.gosund-sw5: github://broccoliboy/esphome-config/devices/gosund-sw2/gosund-sw2.yaml@main
