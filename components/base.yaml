@@ -9,7 +9,7 @@ esphome:
   name_add_mac_suffix: true
 
 dashboard_import:
-  package_import_url: github://broccoliboy/esphome-config/devices/${name}-import.yaml@main
+  package_import_url: github://broccoliboy/esphome-config/devices/${name}-template.yaml@main
   import_full_config: true
 
 preferences:
@@ -24,3 +24,4 @@ packages:
   restart: !include restart.yaml
   version: !include version.yaml
   time: !include time.yaml
+  logger: !include logger.yaml
