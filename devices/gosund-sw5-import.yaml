@@ -1,8 +1,8 @@
 substitutions:
   # Copy yaml filename with MAC suffix after adopting
-  name: 
+  name: <CHANGE ME>
 
-  # Friendly name can be anything or nothing
+  # Friendly name can be anything or comment out to use default
   friendly_name: 
 
   # Make sure the following secrets are defined in your global secrets.yaml file
