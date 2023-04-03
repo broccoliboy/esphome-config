@@ -1,5 +1,5 @@
 substitutions:
-  # Define unique name (copy MAC suffix from yaml filename after adopting this device into ESPHome)
+  # Copy yaml filename with MAC suffix after adopting
   name: 
 
   # Friendly name can be anything
