@@ -1,8 +1,8 @@
 substitutions:
-  # Copy yaml filename with MAC suffix after adopting
-  name: <CHANGE ME>
+  # Replace name with yaml file base name after adopting
+  name: gosund-sw5-<MAC_SUFFIX>
 
-  # Friendly name can be anything or comment out to use default
+  # Friendly name can be anything or leave blank for default
   friendly_name: 
 
   # Make sure the following secrets are defined in your global secrets.yaml file
