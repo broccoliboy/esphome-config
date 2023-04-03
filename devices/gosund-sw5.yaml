@@ -1,5 +1,5 @@
 substitutions:
-  # default values here can be overwritten in substitutions of 
+  # default values here can be overwritten
   name: "gosund-sw5"
   friendly_name: "Gosund SW5"
 
