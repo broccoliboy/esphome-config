@@ -4,8 +4,8 @@
 # block. `device-name` must be unique for all nodes in a network.
 
 substitutions:
-  device_name: gosund-sw5-example
-  device_friendly_name: "Gosund SW5"
+  name: gosund-sw5-example
+  friendly_name: "Gosund SW5"
 
   # Define secret substitutions here (remote packages can't use !secrets
   # so we use substitutions to pass in their values)

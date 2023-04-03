@@ -2,7 +2,7 @@ substitutions:
   # Copy yaml filename with MAC suffix after adopting
   name: 
 
-  # Friendly name can be anything
+  # Friendly name can be anything or nothing
   friendly_name: 
 
   # Make sure the following secrets are defined in your global secrets.yaml file
