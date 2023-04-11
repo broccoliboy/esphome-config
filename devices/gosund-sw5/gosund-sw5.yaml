@@ -9,8 +9,8 @@ esphome:
     version: "1.0"
 
 packages:
-  hardware: !include ../hardware/esp01_1m.yaml
-  base: !include ../components/base.yaml
+  hardware: !include ../../hardware/esp01_1m.yaml
+  base: !include ../../components/base.yaml
 
 status_led:
   pin:
