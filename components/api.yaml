@@ -1,4 +1,4 @@
 api:
-  encryption:
-    key: ${api_key}
+  # encryption:
+  #   key: ${api_key}
   
