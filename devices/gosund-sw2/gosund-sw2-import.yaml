@@ -14,4 +14,4 @@ substitutions:
   ota_password: !secret ota_password
 
 packages:
-  broccoliboy.gosund-sw5: github://broccoliboy/esphome-config/devices/gosund-sw2/gosund-sw2.yaml@main
+  broccoliboy.gosund-sw2: github://broccoliboy/esphome-config/devices/gosund-sw2/gosund-sw2.yaml@main

@@ -1,80 +1,170 @@
+// Credit: https://github.com/nuttytree/ESPHome-Devices
+
 #pragma once
 #include "esphome.h"
+#include "esphome/core/log.h"
+#include "esphome/core/helpers.h"
+#include "esphome/components/output/binary_output.h"
+#include "esphome/components/light/light_state.h"
+#include "esphome/components/light/light_output.h"
+#include "esphome/components/uart/uart.h"
 
-class GosundSW2 : public Component, public UARTDevice {
- public:
-  GosundSW2(UARTComponent *parent) : UARTDevice(parent) {}
+static const char *const TAG = "gosund_sw2";
 
-  void setup() override {
-    // nothing to do here
-  }
-  void loop() override {
-    if (this->available() >= 5) {
-      uint8_t data[5];
-      if (this->read_array(data, 5)) {
-        auto brightness = float(data[1] == 0 ? 1 : data[1] > 100 ? 100 : data[1]) / 100.0;
-        // auto call = this->state_->make_call();
-        // call.set_brightness(brightness);
-        // call.set_transition_length(0);
-        // call.perform();
-      }
-    }
-  }
+class GosundSW2Light : public Component, public uart::UARTDevice, public light::LightOutput
+{
+public:
+  GosundSW2Light(UARTComponent *uart, BinaryOutput *indicator) : UARTDevice(uart) { this->indicator = indicator; }
+  void setup() override;
+  void loop() override;
+  LightTraits get_traits() override;
+  void setup_state(light::LightState *state) override { this->state = state; }
+  void write_state(light::LightState *state) override;
+
+  void set_min_output(uint8_t min_output);
+  void set_max_output(uint8_t max_output);
+
+  void update_mcu();
+
+protected:
+
+  bool enabled_current = false;
+  bool enabled_target = false;
+
+  float brightness_current = 0;
+  float brightness_target = 0;
+  
+  void publish();
+  light::LightState *state;
+  output::BinaryOutput *indicator;
+  const char RX_START = 0x24;
+  const char RX_STOP = 0x23;
+  static const char RX_LENGTH = 5;
+  uint8_t RX_DATA[RX_LENGTH];
+  const char SLIDER_MIN = 0;
+  const char SLIDER_MAX = 150;
+  const char LED_MIN = 1;
+  const char LED_MAX = 7;
+  const char DIMMER_MIN = 137;
+  const char DIMMER_MAX = 228;
+
+  uint8_t output_min = 0;
+  uint8_t output_max = 255;
+
+  uint32_t publish_time_previous = 0;
+  uint32_t publish_interval = 250; // ms
+  bool need_to_publish = false;
 };
 
-// #pragma once
-// #include "esphome.h"
-// #include "esphome/components/output/binary_output.h"
-// #include "esphome/components/light/light_state.h"
-// #include "esphome/components/light/light_output.h"
-// #include "esphome/components/uart/uart.h"
+void GosundSW2Light::setup()
+{
+  state->set_default_transition_length(0);
+  state->set_flash_transition_length(0);
+  state->set_gamma_correct(1);
+  state->set_restore_mode(LightRestoreMode::LIGHT_ALWAYS_OFF);
+  update_mcu();
+}
 
-// class GosundSW2Dimmer : public Component, public uart::UARTDevice, public light::LightOutput {
-//   public:
-//     GosundSW2Light(UARTComponent *uart, BinaryOutput *indicator) : UARTDevice(uart) { indicator_ = indicator; }
-//     void setup() override {}
-//     void loop() override;
-//     LightTraits get_traits() override;
-//     void setup_state(light::LightState *state) override  { state_ = state; }
-//     void write_state(light::LightState *state) override;
-  
-//   protected:
-//     light::LightState *state_;
-//     output::BinaryOutput *indicator_;
-// };
+LightTraits GosundSW2Light::get_traits()
+{
+  auto traits = LightTraits();
+  traits.set_supported_color_modes({ColorMode::BRIGHTNESS});
+  return traits;
+}
 
-// LightTraits GosundSW2Light::get_traits() {
-//   auto traits = LightTraits();
-//   traits.set_supports_brightness(true);
-//   return traits;
-// }
+void GosundSW2Light::set_min_output(uint8_t val)
+{
+  output_min = val;
+}
 
-// void GosundSW2Light::write_state(light::LightState *state) {
-//   float brightness;
-//   state->current_values.as_brightness(&brightness);
-//   uint8_t command;
+void GosundSW2Light::set_max_output(uint8_t val)
+{
+  output_max = val;
+}
 
-//   if (brightness == 0.0f) {
-//     command = 0;
-//     indicator_->turn_off();
-//   }
-//   else {
-//     command = (127.0 * brightness) + 0x80;
-//     indicator_->turn_on();
-//   }
+void GosundSW2Light::update_mcu()
+{
+  char led = LED_MIN + round((LED_MAX - LED_MIN) * brightness_target);
+  char dimmer = DIMMER_MIN + round((DIMMER_MAX - DIMMER_MIN) * brightness_target);
+  char b0 = (char(enabled_target) << 6) + led;
+  char b1 = dimmer;
 
-//   this->write_byte(command);
-// }
+  ESP_LOGV(TAG, "Writing to MCU: enabled=%d, led=%d, dimmer=%d, command=0x%02X,0x%02X", enabled_target, led, dimmer, b0, b1);
 
-// void GosundSW2Light::loop() {
-//   if (this->available() >= 5) {
-//     uint8_t data[5];
-//     if (this->read_array(data, 5)) {
-//       auto brightness = float(data[1] == 0 ? 1 : data[1] > 100 ? 100 : data[1]) / 100.0;
-//       auto call = this->state_->make_call();
-//       call.set_brightness(brightness);
-//       call.set_transition_length(0);
-//       call.perform();
-//     }
-//   }
-// }
+  write_byte(b0);
+  delay(5); // sw2 needs a slight delay between these two bytes
+  write_byte(b1);
+  delay(5);
+
+  enabled_current = enabled_target;
+  brightness_current = brightness_target;
+
+}
+
+void GosundSW2Light::publish()
+{
+  ESP_LOGV(TAG, "Publishing new state: enabled=%d, brightness=%.4f", enabled_target, brightness_target);
+  auto call = state->make_call();
+  call.set_state(enabled_target);
+  call.set_brightness(brightness_target);
+  call.perform();
+  need_to_publish = false;
+}
+
+void GosundSW2Light::write_state(light::LightState *state)
+{
+  // update enabled_target from state call
+  state->current_values.as_binary(&enabled_target);
+
+  // only update brightness_target if enabled
+  if (enabled_target)
+  {
+    state->current_values.as_brightness(&brightness_target);
+  }
+
+  indicator->set_state(enabled_target);
+
+  ESP_LOGV(TAG, "Update state request: enabled=%d, brightness=%.4f", enabled_target, brightness_target);
+}
+
+void GosundSW2Light::loop()
+{
+  const uint8_t max_commands_per_loop = 5;
+  uint8_t commands_received = 0;
+
+  // Purge anything from serial buffer that's not RX_START byte
+  // This solves issue where MCU transmits garbage data on power up
+  while (available() && peek() != RX_START) read_byte(RX_DATA);
+
+  // Read commands in groups of 5 bytes, but only up to max_commands_per_loop times
+  // so we can turn over control to the rest of esphome regularly
+  while (available() >= 5 && commands_received < max_commands_per_loop)
+  {
+    read_array(RX_DATA, RX_LENGTH);
+    if (RX_START == RX_DATA[0] && RX_STOP == RX_DATA[RX_LENGTH - 1])
+    {
+      uint8_t slider = RX_DATA[1];
+      brightness_target = float(slider - SLIDER_MIN) / float(SLIDER_MAX - SLIDER_MIN);
+      need_to_publish = true;
+      commands_received++;
+      // send any new brightness values immediately
+      update_mcu();
+    }
+  }
+
+  // If we have updated values (from esphome or homeassistant), send them to MCU
+  if (enabled_current != enabled_target || brightness_current != brightness_target)
+  {
+    update_mcu();
+  }
+
+  // After we're done processing UART input, see if we need to publish updated values to esphome
+  // Limit publishes to once per publish_interval
+  uint32_t current_time = millis();
+  if (need_to_publish && (current_time - publish_time_previous) > publish_interval)
+  {
+    publish();
+    publish_time_previous = current_time;
+  }
+
+}
