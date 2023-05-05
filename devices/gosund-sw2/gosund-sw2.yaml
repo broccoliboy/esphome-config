@@ -7,12 +7,17 @@ esphome:
   project:
     name: broccoliboy.gosund-sw2
     version: "1.0"
-  includes:
-    - devices/gosund-sw2/gosund-sw2.h
 
 packages:
   hardware: !include ../../hardware/esp01_1m.yaml
-  base: !include ../../components/base.yaml
+  base: !include ../../common/base.yaml
+
+external_components:
+  - source:
+      type: local
+      path: components
+    refresh: 0s
+    components: [ gosund_sw2_light ]
 
 logger:
   level: INFO
@@ -38,7 +43,7 @@ binary_sensor:
       min_length: 50ms
       max_length: 500ms
       then:
-        - light.toggle: gosund_sw2
+        - light.toggle: gosund_sw2_0
 
 uart:
   - id: gosund_uart
@@ -47,14 +52,19 @@ uart:
     baud_rate: 115200
 
 light:
-  - platform: custom
-    lambda: |-
-      auto gosund_sw2 = new GosundSW2Light(id(gosund_uart), id(gosund_led));
-      App.register_component(gosund_sw2);
-      return {gosund_sw2};
-    lights:
-      - id: gosund_sw2
-        name: Gosund SW2 Dimmer
+  - platform: gosund_sw2_light
+    id: gosund_sw2_0
+    output: gosund_led
+
+# light:
+#   - platform: custom
+#     lambda: |-
+#       auto gosund_sw2 = new GosundSW2Light(id(gosund_uart), id(gosund_led));
+#       App.register_component(gosund_sw2);
+#       return {gosund_sw2};
+#     lights:
+#       - id: gosund_sw2
+#         name: Gosund SW2 Dimmer
 
 # number:
 #   - platform: template
