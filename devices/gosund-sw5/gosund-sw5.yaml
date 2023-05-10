@@ -10,7 +10,7 @@ esphome:
 
 packages:
   hardware: !include ../../hardware/esp01_1m.yaml
-  base: !include ../../components/base.yaml
+  base: !include ../../common/base.yaml
 
 status_led:
   pin:
@@ -37,7 +37,7 @@ switch:
 
 binary_sensor:
   - platform: gpio
-    id: button1
+    id: button0
     pin:
       number: GPIO0
       mode:

@@ -9,17 +9,21 @@
 #include "esphome/components/light/light_output.h"
 #include "esphome/components/uart/uart.h"
 
+namespace esphome {
+namespace gosund_sw2 {
+
 static const char *const TAG = "gosund_sw2";
 
-class GosundSW2Light : public Component, public uart::UARTDevice, public light::LightOutput
+class GosundSW2 : public Component, public light::LightOutput, public uart::UARTDevice
 {
 public:
-  GosundSW2Light(UARTComponent *uart, BinaryOutput *indicator) : UARTDevice(uart) { this->indicator = indicator; }
+  void set_indicator(output::BinaryOutput *_indicator) { indicator = _indicator; }
   void setup() override;
   void loop() override;
-  LightTraits get_traits() override;
+  light::LightTraits get_traits() override;
   void setup_state(light::LightState *state) override { this->state = state; }
   void write_state(light::LightState *state) override;
+  void dump_config() override;
 
   void set_min_output(uint8_t min_output);
   void set_max_output(uint8_t max_output);
@@ -28,15 +32,14 @@ public:
 
 protected:
 
-  bool enabled_current = false;
-  bool enabled_target = false;
-
-  float brightness_current = 0;
-  float brightness_target = 0;
-  
   void publish();
   light::LightState *state;
-  output::BinaryOutput *indicator;
+  output::BinaryOutput *indicator = NULL;
+
+  bool enabled_current = false;
+  bool enabled_target = false;
+  float brightness_current = 0;
+  float brightness_target = 0;
   const char RX_START = 0x24;
   const char RX_STOP = 0x23;
   static const char RX_LENGTH = 5;
@@ -47,42 +50,45 @@ protected:
   const char LED_MAX = 7;
   const char DIMMER_MIN = 137;
   const char DIMMER_MAX = 228;
-
   uint8_t output_min = 0;
   uint8_t output_max = 255;
-
   uint32_t publish_time_previous = 0;
   uint32_t publish_interval = 250; // ms
   bool need_to_publish = false;
 };
 
-void GosundSW2Light::setup()
+void GosundSW2::dump_config()
+{
+    ESP_LOGCONFIG(TAG, "Gosund SW2 Light");
+}
+
+void GosundSW2::setup()
 {
   state->set_default_transition_length(0);
   state->set_flash_transition_length(0);
   state->set_gamma_correct(1);
-  state->set_restore_mode(LightRestoreMode::LIGHT_ALWAYS_OFF);
+  state->set_restore_mode(light::LightRestoreMode::LIGHT_ALWAYS_OFF);
   update_mcu();
 }
 
-LightTraits GosundSW2Light::get_traits()
+light::LightTraits GosundSW2::get_traits()
 {
-  auto traits = LightTraits();
-  traits.set_supported_color_modes({ColorMode::BRIGHTNESS});
+  auto traits = light::LightTraits();
+  traits.set_supported_color_modes({light::ColorMode::BRIGHTNESS});
   return traits;
 }
 
-void GosundSW2Light::set_min_output(uint8_t val)
+void GosundSW2::set_min_output(uint8_t val)
 {
   output_min = val;
 }
 
-void GosundSW2Light::set_max_output(uint8_t val)
+void GosundSW2::set_max_output(uint8_t val)
 {
   output_max = val;
 }
 
-void GosundSW2Light::update_mcu()
+void GosundSW2::update_mcu()
 {
   char led = LED_MIN + round((LED_MAX - LED_MIN) * brightness_target);
   char dimmer = DIMMER_MIN + round((DIMMER_MAX - DIMMER_MIN) * brightness_target);
@@ -101,7 +107,7 @@ void GosundSW2Light::update_mcu()
 
 }
 
-void GosundSW2Light::publish()
+void GosundSW2::publish()
 {
   ESP_LOGV(TAG, "Publishing new state: enabled=%d, brightness=%.4f", enabled_target, brightness_target);
   auto call = state->make_call();
@@ -111,7 +117,7 @@ void GosundSW2Light::publish()
   need_to_publish = false;
 }
 
-void GosundSW2Light::write_state(light::LightState *state)
+void GosundSW2::write_state(light::LightState *state)
 {
   // update enabled_target from state call
   state->current_values.as_binary(&enabled_target);
@@ -122,12 +128,12 @@ void GosundSW2Light::write_state(light::LightState *state)
     state->current_values.as_brightness(&brightness_target);
   }
 
-  indicator->set_state(enabled_target);
+  if (indicator) indicator->set_state(enabled_target);
 
   ESP_LOGV(TAG, "Update state request: enabled=%d, brightness=%.4f", enabled_target, brightness_target);
 }
 
-void GosundSW2Light::loop()
+void GosundSW2::loop()
 {
   const uint8_t max_commands_per_loop = 5;
   uint8_t commands_received = 0;
@@ -137,7 +143,7 @@ void GosundSW2Light::loop()
   while (available() && peek() != RX_START) read_byte(RX_DATA);
 
   // Read commands in groups of 5 bytes, but only up to max_commands_per_loop times
-  // so we can turn over control to the rest of esphome regularly
+  // so we turn over control to the rest of esphome semi-regularly
   while (available() >= 5 && commands_received < max_commands_per_loop)
   {
     read_array(RX_DATA, RX_LENGTH);
@@ -167,4 +173,7 @@ void GosundSW2Light::loop()
     publish_time_previous = current_time;
   }
 
+}
+
+}
 }

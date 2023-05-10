@@ -1,5 +1,5 @@
 substitutions:
-  log_level: none
+  log_level: INFO
   log_baud_rate: '115200'
   flash_write_interval: 10min
 
