@@ -13,9 +13,11 @@ packages:
   base: !include ../../common/base.yaml
 
 external_components:
-  - source:
-      type: local
-      path: components
+  # - source:
+  #     type: local
+  #     path: components
+  #   refresh: 0s
+  - source: github://broccoliboy/esphome-config
     refresh: 0s
     components: [ gosund_sw2 ]
 
