@@ -18,4 +18,8 @@ api:
     key: ${api_key}
 
 packages:
-  broccoliboy.gosund-sw2: github://broccoliboy/esphome-config/devices/gosund-sw2/gosund-sw2.yaml@main
+  broccoliboy.gosund-sw5:
+    url: https://github.com/broccoliboy/esphome-config
+    ref: main
+    file: devices/gosund-sw2/gosund-sw2.yaml
+    refresh: 0s
