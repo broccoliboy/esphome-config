@@ -13,10 +13,6 @@ packages:
   base: !include ../../common/base.yaml
 
 external_components:
-  # - source:
-  #     type: local
-  #     path: components
-  #   refresh: 0s
   - source: github://broccoliboy/esphome-config
     refresh: 0s
     components: [ gosund_sw2 ]
@@ -58,16 +54,6 @@ light:
     id: gosund_sw2_0
     name: "Dimmer"  # need name so light will show up in Home Assistant
     indicator: gosund_indicator
-
-# light:
-#   - platform: custom
-#     lambda: |-
-#       auto gosund_sw2 = new GosundSW2Light(id(gosund_uart), id(gosund_led));
-#       App.register_component(gosund_sw2);
-#       return {gosund_sw2};
-#     lights:
-#       - id: gosund_sw2
-#         name: Gosund SW2 Dimmer
 
 # number:
 #   - platform: template
