@@ -1,6 +1,6 @@
 substitutions:
   # Replace name with yaml file base name after adopting
-  name: gosund-sw5-84f87d
+  name: gosund-sw5-<MAC_SUFFIX>
 
   # Friendly name can be anything or leave blank for default
   friendly_name: 
@@ -12,6 +12,8 @@ substitutions:
   wifi_password_fallback: !secret wifi_password_fallback
   ota_password: !secret ota_password
   api_key: !secret api_key
+  web_username: !secret web_username
+  web_password: !secret web_password
 
 api:
   encryption:

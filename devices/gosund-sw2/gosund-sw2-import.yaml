@@ -12,6 +12,8 @@ substitutions:
   wifi_password_fallback: !secret wifi_password_fallback
   ota_password: !secret ota_password
   api_key: !secret api_key
+  web_username: !secret web_username
+  web_password: !secret web_password
 
 api:
   encryption:
