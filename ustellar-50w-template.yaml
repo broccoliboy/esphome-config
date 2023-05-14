@@ -1,0 +1,4 @@
+packages:
+  secrets: !include secrets_substitutions.yaml
+  device: !include devices/ustellar-50w/ustellar-50w.yaml
+  template: !include base-template.yaml
