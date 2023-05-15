@@ -41,6 +41,7 @@ binary_sensor:
     id: gosund_button
     pin:
       number: GPIO4
+      mode: INPUT_PULLUP
       inverted: true
     on_click:
       min_length: 50ms
