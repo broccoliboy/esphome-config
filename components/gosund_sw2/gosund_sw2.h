@@ -27,8 +27,9 @@ namespace esphome
       void write_state(light::LightState *state) override;
       void dump_config() override;
 
-      void set_min_output(uint8_t min_output);
-      void set_max_output(uint8_t max_output);
+      void set_output_min(float val);
+      void set_output_max(float val);
+      void set_output_gamma(float val);
 
       void update_mcu();
 
@@ -51,8 +52,13 @@ namespace esphome
       const char LED_MAX = 7;
       const char DIMMER_MIN = 137;
       const char DIMMER_MAX = 228;
-      uint8_t output_min = 0;
-      uint8_t output_max = 255;
+      const float OUTPUT_RANGE_MIN = 0;
+      const float OUTPUT_RANGE_MAX = 1;
+      const float OUTPUT_GAMMA_MIN = 0.5;
+      const float OUTPUT_GAMMA_MAX = 3.0;
+      float output_min = 0;
+      float output_max = 1;
+      float output_gamma = 1;
       uint32_t publish_time_previous = 0;
       uint32_t publish_interval = 250; // ms
       bool need_to_publish = false;
@@ -79,20 +85,32 @@ namespace esphome
       return traits;
     }
 
-    void GosundSW2::set_min_output(uint8_t val)
+    void GosundSW2::set_output_min(float val)
     {
-      output_min = val;
+      output_min = constrain(val, OUTPUT_RANGE_MIN, OUTPUT_RANGE_MAX);
+      update_mcu();
     }
 
-    void GosundSW2::set_max_output(uint8_t val)
+    void GosundSW2::set_output_max(float val)
     {
-      output_max = val;
+      output_max = constrain(val, OUTPUT_RANGE_MIN, OUTPUT_RANGE_MAX);
+      update_mcu();
+    }
+
+    void GosundSW2::set_output_gamma(float val)
+    {
+      output_gamma = constrain(val, OUTPUT_GAMMA_MIN, OUTPUT_GAMMA_MAX);
+      update_mcu();
     }
 
     void GosundSW2::update_mcu()
     {
       char led = LED_MIN + round((LED_MAX - LED_MIN) * brightness_target);
-      char dimmer = DIMMER_MIN + round((DIMMER_MAX - DIMMER_MIN) * brightness_target);
+      led = constrain(led, LED_MIN, LED_MAX);
+      float output_corrected = powf(brightness_target, output_gamma);
+      output_corrected = output_min + (output_max - output_min) * output_corrected; 
+      char dimmer = DIMMER_MIN + round((DIMMER_MAX - DIMMER_MIN) * output_corrected);
+      dimmer = constrain(dimmer, DIMMER_MIN, DIMMER_MAX);
       char b0 = (char(enabled_target) << 6) + led;
       char b1 = dimmer;
 

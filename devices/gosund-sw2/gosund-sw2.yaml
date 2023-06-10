@@ -50,7 +50,7 @@ binary_sensor:
       min_length: 50ms
       max_length: 500ms
       then:
-        - light.toggle: gosund_sw2_0
+        - light.toggle: gosund_sw2_light
 
 uart:
   - id: gosund_uart
@@ -60,26 +60,44 @@ uart:
 
 light:
   - platform: gosund_sw2
-    id: gosund_sw2_0
+    id: gosund_sw2_light
     name: "Dimmer"  # need name so light will show up in Home Assistant
     indicator: gosund_indicator
 
-# number:
-#   - platform: template
-#     name: "Output range min"
-#     id: output_range_min
-#     optimistic: true
-#     min_value: 0
-#     max_value: 100
-#     step: 1
-#     restore_value: true
-#     initial_value: 0
-#   - platform: template
-#     name: "Output range max"
-#     id: output_range_max
-#     optimistic: true
-#     min_value: 0
-#     max_value: 100
-#     step: 1
-#     restore_value: true
-#     initial_value: 100
+number:
+  - platform: template
+    name: "Output range min"
+    id: output_range_min
+    min_value: 0
+    max_value: 1
+    step: 0.01
+    restore_value: true
+    initial_value: 0
+    optimistic: true
+    set_action:
+      then:
+        lambda: "gosund_sw2_gosundsw2->set_output_min(x);"
+  - platform: template
+    name: "Output range max"
+    id: output_range_max
+    min_value: 0
+    max_value: 1
+    step: 0.01
+    restore_value: true
+    initial_value: 1
+    optimistic: true
+    set_action:
+      then:
+        lambda: "gosund_sw2_gosundsw2->set_output_max(x);"
+  - platform: template
+    name: "Gamma"
+    id: output_gamma
+    min_value: 0.5
+    max_value: 3.0
+    step: 0.1
+    restore_value: true
+    initial_value: 1.0
+    optimistic: true
+    set_action:
+      then:
+        lambda: "gosund_sw2_gosundsw2->set_output_gamma(x);"
