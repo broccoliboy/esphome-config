@@ -23,7 +23,9 @@ output:
   pin: GPIO14
 - platform: gpio
   id: gosund_led_green
-  pin: GPIO2
+  pin: 
+    number: GPIO2
+    inverted: true
 
 switch:
 - platform: output
