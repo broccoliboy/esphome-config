@@ -21,4 +21,5 @@ packages:
   version: !include version.yaml
   time: !include time.yaml
   logger: !include logger.yaml
+  uptime: !include uptime.yaml
   web_server: !include web_server.yaml
