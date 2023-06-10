@@ -1,11 +1,13 @@
 ```yaml
 
-# example configuration:
+# Example configuration. See `devices/gosund-sw2/gosund-sw2.yaml` for a complete device example.
 
 output:
   - platform: gpio
-    id: gosund_led
-    pin: GPIO13
+    id: gosund_indicator
+    pin:
+      number: GPIO13
+      inverted: true
 
 uart:
   - id: gosund_uart
@@ -15,7 +17,8 @@ uart:
 
 light:
   - platform: gosund_sw2
-    id: gosund_sw2_0
-    output: gosund_led
+    id: gosund_sw2_light
+    name: "Dimmer"  # need name so light will show up in Home Assistant
+    indicator: gosund_indicator
 
 ```

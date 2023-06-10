@@ -8,16 +8,19 @@ esphome:
     name: broccoliboy.gosund-sw2
     version: "1.0"
 
+# import baseline hardware and common components
 packages:
   hardware: !include ../../hardware/esp01_1m.yaml
   base: !include ../../common/base.yaml
 
+# import the gosund-sw2 component externally. For some reason local import isn't working for this component.
 external_components:
-  # - source: components # uncomment to use local components folder
+  # - source: components # uncomment to use local components folder for development
   - source: github://broccoliboy/esphome-config
     refresh: 0s
     components: [ gosund_sw2 ]
 
+# configurations specific to this device
 logger:
   level: ${log_level}
   baud_rate: 0  # This must be 0 to prevent conflicts with the dimmer
