@@ -1,2 +1,2 @@
 api:
-  reboot_timeout: 30min
+  reboot_timeout: 0s
