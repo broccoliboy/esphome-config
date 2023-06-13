@@ -39,11 +39,6 @@ output:
 
 binary_sensor:
   - platform: gpio
-    id: gpio0
-    pin:
-      number: GPIO0
-      mode: INPUT_PULLUP
-  - platform: gpio
     id: gosund_button
     pin:
       number: GPIO4
