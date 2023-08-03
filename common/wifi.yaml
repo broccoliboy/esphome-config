@@ -2,9 +2,11 @@ wifi:
   networks:
     - ssid: ${wifi_ssid}
       password: ${wifi_password}
+      hidden: true
     - ssid: ${wifi_ssid_fallback}
       password: ${wifi_password_fallback}
-  
+      hidden: true
+
 #   ap:
 #     ssid: ${ap_ssid}
 #     password: ${ap_password}
