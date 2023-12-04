@@ -6,12 +6,16 @@ Top level directory contains individual node configs and `secrets.yaml`. Files w
 
 `secrets_substitutes.yaml` makes it easier to import all secrets in one line.
 
-* `common`
-    * Configurations shared across devices
-* `devices`
-    * Full config for specific devices
-    * Files with `-import` suffix are used by ESPHome when the device is adopted through the dashboard
 * `hardware`
     * Platform and board configs
+* `common`
+    * Configurations shared across devices
 * `components`
     * Sharable components that can be included in external projects through `external_components` config. See `devices/gosund-sw2/gosund-sw2.yaml` for example usage.
+* `devices`
+    * Configs for device classes. One for each part number or type of device that shares the same config.
+    * Files with `-import` suffix are used by ESPHome when the device is adopted through the dashboard
+* `templates`
+    * Configs designed to be flashed to nodes to enable adoption into esphome dashboards
+* `nodes`
+    * Individual device configs (one for each individual device on the network)

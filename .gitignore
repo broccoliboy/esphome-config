@@ -1,7 +1,8 @@
 # Gitignore settings for ESPHome
-/.esphome/
-/.vscode/
+.esphome
+.vscode
 /build/
 /secrets.yaml
 __pycache__
 .DS_Store
+nodes

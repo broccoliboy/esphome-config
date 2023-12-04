@@ -1,4 +1,4 @@
 packages:
   secrets: !include secrets_substitutions.yaml
-  device: !include devices/gosund-sw2/gosund-sw2.yaml
+  device: !include ../devices/gosund-sw5/gosund-sw5.yaml
   template: !include base-template.yaml
