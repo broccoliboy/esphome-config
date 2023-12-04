@@ -1,0 +1,4 @@
+packages:
+  secrets: !include secrets_substitutions.yaml
+  device: !include ../devices/wyze-plug-outdoor/wyze-plug-outdoor.yaml
+  template: !include base-template.yaml

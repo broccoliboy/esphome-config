@@ -1,0 +1,5 @@
+substitutions:
+  board: esp32dev
+
+packages:
+  esp32: !include esp32.yaml
