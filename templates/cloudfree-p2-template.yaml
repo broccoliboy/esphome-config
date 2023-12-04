@@ -1,0 +1,4 @@
+packages:
+  secrets: !include secrets_substitutions.yaml
+  device: !include ../devices/cloudfree-p2/cloudfree-p2.yaml
+  template: !include base-template.yaml
