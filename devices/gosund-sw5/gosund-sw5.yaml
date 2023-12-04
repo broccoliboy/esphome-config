@@ -18,24 +18,24 @@ status_led:
     inverted: true
 
 output:
-- platform: gpio
-  id: gosund_relay
-  pin: GPIO14
-- platform: gpio
-  id: gosund_led_green
-  pin: 
-    number: GPIO2
-    inverted: true
+  - platform: gpio
+    id: gosund_relay
+    pin: GPIO14
+  - platform: gpio
+    id: gosund_led_green
+    pin: 
+      number: GPIO2
+      inverted: true
 
 switch:
-- platform: output
-  name: "Switch"
-  id: gosund_switch
-  output: gosund_relay
-  on_turn_on:
-    - output.turn_on: gosund_led_green
-  on_turn_off:
-    - output.turn_off: gosund_led_green
+  - platform: output
+    name: "Switch"
+    id: gosund_switch
+    output: gosund_relay
+    on_turn_on:
+      - output.turn_on: gosund_led_green
+    on_turn_off:
+      - output.turn_off: gosund_led_green
 
 binary_sensor:
   - platform: gpio
