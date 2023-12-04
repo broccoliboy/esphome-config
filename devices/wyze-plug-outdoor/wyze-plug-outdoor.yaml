@@ -14,43 +14,43 @@ packages:
   hardware: !include ../../hardware/esp32dev.yaml
   base: !include ../../common/base.yaml
 
+output:
+  - platform: gpio
+    id: relay1_led
+    pin: GPIO19
+    inverted: true
+  - platform: gpio
+    id: relay2_led
+    pin: GPIO16
+    inverted: true
+
 switch:
   - platform: gpio
+    id: relay1
     name: Relay 1
     pin:
       number: GPIO15
       inverted: false
-    id: relay1
     on_turn_on:
       - output.turn_on: relay1_led
     on_turn_off:
       - output.turn_off: relay1_led
   - platform: gpio
+    id: relay2
     name: Relay 2
     pin:
       number: GPIO32
       inverted: false
-    id: relay2
     on_turn_on:
       - output.turn_on: relay2_led
     on_turn_off:
       - output.turn_off: relay2_led
 
-output:
-  - platform: gpio
-    pin: GPIO19
-    inverted: true
-    id: relay1_led
-  - platform: gpio
-    pin: GPIO16
-    inverted: true
-    id: relay2_led
-
 sensor:
   - platform: adc
+    id: lux_sensor
     pin: GPIO34
     name: Lux
-    id: lux_sensor
     device_class: illuminance
     unit_of_measurement: lx
     attenuation: 11db
@@ -83,21 +83,19 @@ sensor:
 
 binary_sensor:
   - platform: gpio
-    internal: true
+    id: button_1
     pin:
       number: GPIO18
       mode: INPUT_PULLDOWN
       inverted: false
-    name: Button 1
     on_press:
       - switch.toggle: relay1
   - platform: gpio
-    internal: true
+    id: button_2
     pin:
       number: GPIO17
       mode: INPUT_PULLDOWN
       inverted: false
-    name: Button 2
     on_press:
       - switch.toggle: relay2
   - platform: template
