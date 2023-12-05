@@ -1,0 +1,4 @@
+packages:
+  secrets: !include secrets_substitutions.yaml
+  device: !include ../devices/athom-rgb-controller/athom-rgb-controller.yaml
+  template: !include base-template.yaml
