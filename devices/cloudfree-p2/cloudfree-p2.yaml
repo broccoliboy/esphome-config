@@ -25,7 +25,6 @@ output:
     id: relay_gpio
     pin:
       number: GPIO4
-      inverted: true
   - platform: gpio
     id: relay_led_gpio
     pin:
