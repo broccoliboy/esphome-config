@@ -14,6 +14,8 @@ substitutions:
   api_key: !secret api_key
   web_username: !secret web_username
   web_password: !secret web_password
+  latitude: !secret latitude
+  longitude: !secret longitude
 
 api:
   encryption:
