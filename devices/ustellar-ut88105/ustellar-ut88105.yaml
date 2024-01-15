@@ -74,10 +74,24 @@ switch:
     name: "Manual Mode"
     optimistic: true
 
-# PIR
 binary_sensor:
   - platform: gpio
+    id: pir_binary_sensor
     pin: P6
+    name: "PIR"
+    device_class: moving
+    on_press:
+      then:
+        binary_sensor.template.publish:
+          id: motion_binary_sensor
+          state: ON
+    on_release:
+      then:
+        binary_sensor.template.publish:
+          id: motion_binary_sensor
+          state: OFF
+  - platform: template
+    id: motion_binary_sensor
     name: "Motion"
     device_class: motion
     filters:
