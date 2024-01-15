@@ -1,5 +1,0 @@
-substitutions:
-  platform: bk72xx
-
-bk72xx:
-  board: ${board}

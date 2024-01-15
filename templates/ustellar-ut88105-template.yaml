@@ -1,4 +1,3 @@
 packages:
-  secrets: !include secrets_substitutions.yaml
   device: !include ../devices/ustellar-ut88105/ustellar-ut88105.yaml
   template: !include base-template.yaml

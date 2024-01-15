@@ -16,7 +16,7 @@ esphome:
           id(cwww_light).remote_values.set_brightness(0.5);
 
 packages:
-  hardware: !include ../../hardware/wb3s.yaml
+  hardware: !include ../../hardware/boards/wb3s.yaml
   base: !include ../../common/base.yaml
 
 status_led:

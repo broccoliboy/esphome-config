@@ -1,5 +1,0 @@
-substitutions:
-  board: wb3s
-
-packages:
-  bk72xx: !include bk72xx.yaml

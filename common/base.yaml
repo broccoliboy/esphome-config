@@ -12,6 +12,7 @@ preferences:
   flash_write_interval: ${flash_write_interval}
 
 packages:
+  secrets: !include secrets_substitutions.yaml
   wifi: !include wifi.yaml
   api: !include api.yaml
   ota: !include ota.yaml
