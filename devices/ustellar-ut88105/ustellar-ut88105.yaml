@@ -99,7 +99,7 @@ binary_sensor:
         then:
           - light.turn_off: cwww_light
 
-# turn off manual mode at midnight every night (in case it was mistakenly left on)
+# reset light and manual mode switch at midnight every night (in case it was mistakenly left on)
 time:
   - platform: ${time_platform}
     on_time:
@@ -108,3 +108,4 @@ time:
         hours: 0
         then:
           - switch.turn_off: manual_mode_switch
+          - light.turn_off: cwww_light
