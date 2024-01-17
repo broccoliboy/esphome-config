@@ -4,4 +4,3 @@ web_server:
     username: !secret web_username
     password: !secret web_password
   include_internal: true
-  local: true
