@@ -1,6 +1,2 @@
 esp8266:
   board: ${board}
-  restore_from_flash: false
-
-wifi:
-  power_save_mode: HIGH
