@@ -2,8 +2,6 @@
 
 ## Directory structure
 
-* `hardware`
-    * Platform and board base configs
 * `common`
     * Configurations shared across devices
 * `components`
@@ -11,11 +9,13 @@
 * `devices`
     * Configs for device classes. One for each part number or type of device that shares the same config.
     * Files with `-import` suffix are used by ESPHome dashboard when the device is adopted.
+* `hardware`
+    * Platform and board base configs
+* `scripts`
+    * Helper scripts
 * `templates`
     * Configs designed to be flashed to devices to enable adoption into esphome dashboards
     * These templates configure devices to use MAC suffix to make each one unique
-* `scripts`
-    * Helper scripts
 
 ## Secrets
 
