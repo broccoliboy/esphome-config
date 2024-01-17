@@ -5,5 +5,5 @@ time:
   - platform: ${time_platform}
 
 sun:
-  latitude: ${latitude}
-  longitude: ${longitude}
+  latitude: !secret latitude
+  longitude: !secret longitude

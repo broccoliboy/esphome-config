@@ -5,16 +5,10 @@ substitutions:
   # Friendly name can be anything or leave blank for default
   friendly_name: 
 
-  # Make sure the following secrets are defined in your global secrets.yaml file
-  wifi_ssid: !secret wifi_ssid
-  wifi_password: !secret wifi_password
-  wifi_ssid_fallback: !secret wifi_ssid_fallback
-  wifi_password_fallback: !secret wifi_password_fallback
-  ota_password: !secret ota_password
-  api_key: !secret api_key
-  web_username: !secret web_username
-  web_password: !secret web_password
+  # Provide more device details, or leave blank for default
+  comment: 
 
+# define api_key in your secrets.yaml, or delete this section to not use an API key
 api:
   encryption:
     key: ${api_key}

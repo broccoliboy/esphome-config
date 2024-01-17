@@ -1,5 +1,0 @@
-substitutions:
-  platform: esp32
-
-esp32:
-  board: ${board}

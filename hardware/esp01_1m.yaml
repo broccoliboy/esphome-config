@@ -1,5 +1,0 @@
-substitutions:
-  board: esp01_1m
-
-packages:
-  esp8266: !include esp8266.yaml

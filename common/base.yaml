@@ -6,13 +6,13 @@ substitutions:
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
+  comment: ${comment}
   name_add_mac_suffix: false
 
 preferences:
   flash_write_interval: ${flash_write_interval}
 
 packages:
-  secrets: !include secrets_substitutions.yaml
   wifi: !include wifi.yaml
   api: !include api.yaml
   ota: !include ota.yaml

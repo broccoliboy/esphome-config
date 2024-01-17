@@ -2,4 +2,4 @@ substitutions:
   board: esp32dev
 
 packages:
-  esp32: !include esp32.yaml
+  esp32: !include ../platforms/esp32.yaml

@@ -1,3 +1,5 @@
+# include this file after device config
+
 esphome:
   name_add_mac_suffix: true
 
