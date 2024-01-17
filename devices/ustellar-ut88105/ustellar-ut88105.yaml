@@ -116,7 +116,7 @@ binary_sensor:
 
 # reset light and manual mode switch at midnight every night (in case it was mistakenly left on)
 time:
-  - platform: ${time_platform}
+  - id: !extend common_time
     on_time:
       - seconds: 0
         minutes: 0
