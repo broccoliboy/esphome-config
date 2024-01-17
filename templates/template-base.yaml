@@ -1,4 +1,4 @@
-# include this file after device config
+# include this file after device template so {name} is defined
 
 esphome:
   name_add_mac_suffix: true
