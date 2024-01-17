@@ -2,20 +2,32 @@
 
 ## Directory structure
 
-Top level directory contains individual node configs and `secrets.yaml`. Files with `-template` suffix are for initial device flashing so it will be recognized by ESPHome. These files configure devices with MAC suffix so they are unique when adopting into ESPHome/Home Assistant. After adopting the device you must rename it to something unique or manually copy the MAC suffix from the filename (see `devices/gosund-sw2/gosund-sw2-import.yaml` for example).
-
-`secrets_substitutes.yaml` makes it easier to import all secrets in one line.
-
 * `hardware`
-    * Platform and board configs
+    * Platform and board base configs
 * `common`
     * Configurations shared across devices
 * `components`
     * Sharable components that can be included in external projects through `external_components` config. See `devices/gosund-sw2/gosund-sw2.yaml` for example usage.
 * `devices`
     * Configs for device classes. One for each part number or type of device that shares the same config.
-    * Files with `-import` suffix are used by ESPHome when the device is adopted through the dashboard
+    * Files with `-import` suffix are used by ESPHome dashboard when the device is adopted.
 * `templates`
-    * Configs designed to be flashed to nodes to enable adoption into esphome dashboards
-* `nodes`
-    * Individual device configs (one for each individual device on the network)
+    * Configs designed to be flashed to devices to enable adoption into esphome dashboards
+    * These templates configure devices to use MAC suffix to make each one unique
+* `scripts`
+    * Helper scripts
+
+## Secrets
+
+The following variables are required in your `secrets.yaml`:
+
+* `wifi_ssid` - SSID of your primary wifi network
+* `wifi_password` - Password of your primary wifi network
+* `wifi_ssid_fallback` - SSID of a fallback wifi network
+* `wifi_password_fallback` - Password of a fallback wifi network
+* `api_key` - API key (https://esphome.io/components/api.html)
+* `ota_password` - OTA update password
+* `web_username` - Web interface username
+* `web_password` - Web interface password
+* `latitude` - Latitude of device location (used to calculate sunrise/sunset in some devices)
+* `longitude` - Longitude of device location
