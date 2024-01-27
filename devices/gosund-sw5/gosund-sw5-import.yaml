@@ -5,13 +5,13 @@ substitutions:
   # Friendly name can be anything or leave blank for default
   friendly_name: 
 
-  # Provide more device details, or leave blank for default
+  # Provide more device details or leave blank for default
   comment: 
 
-# define api_key in your secrets.yaml, or delete this section to not use an API key
+# define api_key in your secrets.yaml or delete this section to not use an API key
 api:
   encryption:
-    key: ${api_key}
+    key: !secret api_key
 
 packages:
   broccoliboy.gosund-sw5:
