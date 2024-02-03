@@ -1,0 +1,21 @@
+substitutions:
+  # Replace name with yaml file base name after adopting
+  name: globa-50079-<MAC_SUFFIX>
+
+  # Friendly name can be anything or leave blank for default
+  friendly_name: 
+
+  # Provide more device details or leave blank for default
+  comment: 
+
+# define api_key in your secrets.yaml or delete this section to not use an API key
+api:
+  encryption:
+    key: !secret api_key
+
+packages:
+  broccoliboy.globe-50079:
+    url: https://github.com/broccoliboy/esphome-config
+    ref: main
+    file: devices/globe-50079/globe-50079.yaml
+    refresh: 0s

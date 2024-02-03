@@ -1,0 +1,3 @@
+packages:
+  device: !include ../devices/globe-50079/globe-50079.yaml
+  template: !include template-base.yaml
