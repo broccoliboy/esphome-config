@@ -1,0 +1,5 @@
+substitutions:
+  board: cb2s
+
+packages:
+  bk72xx: !include ../platforms/bk72xx.yaml

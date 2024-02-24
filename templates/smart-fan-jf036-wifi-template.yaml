@@ -1,0 +1,3 @@
+packages:
+  device: !include ../devices/smart-fan-jf036-wifi/smart-fan-jf036-wifi.yaml
+  template: !include template-base.yaml
