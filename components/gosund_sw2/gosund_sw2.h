@@ -162,9 +162,9 @@ namespace esphome
       while (available() && peek() != RX_START)
         read_byte(RX_DATA);
 
-      // Read commands in groups of 5 bytes, but only up to max_commands_per_loop times
+      // Read commands in groups of RX_LENGTH bytes, but only up to max_commands_per_loop times
       // so we turn over control to the rest of esphome semi-regularly
-      while (available() >= 5 && commands_received < max_commands_per_loop)
+      while (available() >= RX_LENGTH && commands_received < max_commands_per_loop)
       {
         read_array(RX_DATA, RX_LENGTH);
         if (RX_START == RX_DATA[0] && RX_STOP == RX_DATA[RX_LENGTH - 1])
