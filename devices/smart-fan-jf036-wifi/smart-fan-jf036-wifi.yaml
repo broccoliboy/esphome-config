@@ -41,15 +41,15 @@ light:
     name: "Light"
     switch_datapoint: 20
     dimmer_datapoint: 22
-    min_value: 10
-    max_value: 997
+    min_value: 0
+    max_value: 1000
     on_state:
       then:
         - lambda: |-
-            // hack for samsung led driver that only turns on if initial brighntess is <= 30%
+            // hack for samsung led driver that only turns on if initial brighntess is <= 50%
             // ESP_LOGI("tuya_light", "is_on = %b, brightness = %f", id(tuya_light).remote_values.is_on(), id(tuya_light).remote_values.get_brightness());
-            if (!id(tuya_light).remote_values.is_on() && (id(tuya_light).remote_values.get_brightness() > 0.3)) {
-              id(tuya_light).make_call().set_brightness(0.25).perform();
+            if (!id(tuya_light).remote_values.is_on() && (id(tuya_light).remote_values.get_brightness() > 0.5)) {
+              id(tuya_light).make_call().set_brightness(0.5).perform();
             }
 
 fan:
