@@ -31,9 +31,14 @@ switch:
   - platform: tuya
     id: tuya_switch_beep
     name: "Beep"
-    entity_category: "config"
+    entity_category: config
     switch_datapoint: 66
     inverted: true
+  - platform: template
+    id: soft_start_switch
+    name: "Soft Start"
+    entity_category: config
+    optimistic: true
 
 light:
   - platform: tuya
@@ -46,10 +51,10 @@ light:
     on_state:
       then:
         - lambda: |-
-            // hack for samsung led driver that only turns on if initial brighntess is <= 40%
+            // hack for some led drivers that only turn on if initial brighntess is low
             // ESP_LOGI("tuya_light", "is_on = %b, brightness = %f", id(tuya_light).remote_values.is_on(), id(tuya_light).remote_values.get_brightness());
-            if (!id(tuya_light).remote_values.is_on() && (id(tuya_light).remote_values.get_brightness() > 0.45)) {
-              id(tuya_light).make_call().set_brightness(0.4).perform();
+            if (id(soft_start_switch).state && !id(tuya_light).remote_values.is_on() && (id(tuya_light).remote_values.get_brightness() > 0.4)) {
+              id(tuya_light).make_call().set_brightness(0.3).perform();
             }
 
 fan:
