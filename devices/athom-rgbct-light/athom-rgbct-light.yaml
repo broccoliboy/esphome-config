@@ -54,6 +54,6 @@ light:
     blue: blue_output
     white_brightness: white_output
     color_temperature: ct_output
-    cold_white_color_temperature: 153 mireds
-    warm_white_color_temperature: 500 mireds
+    cold_white_color_temperature: 6000 K
+    warm_white_color_temperature: 3000 K
     color_interlock: true
