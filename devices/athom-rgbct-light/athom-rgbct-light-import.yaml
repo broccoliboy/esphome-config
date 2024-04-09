@@ -1,0 +1,21 @@
+substitutions:
+  # Replace name with yaml file base name after adopting
+  name: athom-rgbct-light-<MAC_SUFFIX>
+
+  # Friendly name can be anything or leave blank for default
+  friendly_name: 
+
+  # Provide more device details or leave blank for default
+  comment: 
+
+# define api_key in your secrets.yaml or delete this section to not use an API key
+api:
+  encryption:
+    key: !secret api_key
+
+packages:
+  broccoliboy.athom-rgbct-light:
+    url: https://github.com/broccoliboy/esphome-config
+    ref: main
+    file: devices/athom-rgbct-light/athom-rgbct-light.yaml
+    refresh: 0s

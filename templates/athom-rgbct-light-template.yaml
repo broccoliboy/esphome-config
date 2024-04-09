@@ -1,0 +1,3 @@
+packages:
+  device: !include ../devices/athom-rgbct-light/athom-rgbct-light.yaml
+  template: !include template-base.yaml
