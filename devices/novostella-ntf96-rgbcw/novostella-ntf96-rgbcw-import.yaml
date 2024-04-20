@@ -1,0 +1,21 @@
+substitutions:
+  # Replace name with yaml file base name after adopting
+  name: novostella-ntf96-rgbcw-<MAC_SUFFIX>
+
+  # Friendly name can be anything or leave blank for default
+  friendly_name: 
+
+  # Provide more device details or leave blank for default
+  comment: 
+
+# define api_key in your secrets.yaml or delete this section to not use an API key
+api:
+  encryption:
+    key: !secret api_key
+
+packages:
+  broccoliboy.novostella-ntf96-rgbcw:
+    url: https://github.com/broccoliboy/esphome-config
+    ref: main
+    file: devices/novostella-ntf96-rgbcw/novostella-ntf96-rgbcw.yaml
+    refresh: 0s
