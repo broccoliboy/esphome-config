@@ -16,8 +16,8 @@ packages:
   base: !include ../../common/base.yaml
 
 external_components:
-  - source: ../components # uncomment to use local components folder for development
-  # - source: github://broccoliboy/esphome-config
+  # - source: ../components # uncomment to use local components folder for development
+  - source: github://broccoliboy/esphome-config
     refresh: 0s
     components: [ tuya ]
 
