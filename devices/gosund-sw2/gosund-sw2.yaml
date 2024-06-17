@@ -7,7 +7,7 @@ substitutions:
 esphome:
   project:
     name: broccoliboy.gosund-sw2
-    version: "2.1"
+    version: "2.3"
 
 # import baseline hardware and common components
 packages:
@@ -76,7 +76,7 @@ number:
     optimistic: true
     set_action:
       then:
-        lambda: "gosund_sw2_gosundsw2->set_output_min(x);"
+        lambda: "gosund_sw2_gosundsw2_id->set_output_min(x);"
   - platform: template
     name: "Output range max"
     id: output_range_max
@@ -89,7 +89,7 @@ number:
     optimistic: true
     set_action:
       then:
-        lambda: "gosund_sw2_gosundsw2->set_output_max(x);"
+        lambda: "gosund_sw2_gosundsw2_id->set_output_max(x);"
   - platform: template
     name: "Gamma"
     id: output_gamma
@@ -102,4 +102,4 @@ number:
     optimistic: true
     set_action:
       then:
-        lambda: "gosund_sw2_gosundsw2->set_output_gamma(x);"
+        lambda: "gosund_sw2_gosundsw2_id->set_output_gamma(x);"
