@@ -47,8 +47,6 @@ light:
       - random:
       - strobe:
       - flicker:
-          alpha: 50%
-          intensity: 50%
       - strobe:
           name: Christmas
           colors:
