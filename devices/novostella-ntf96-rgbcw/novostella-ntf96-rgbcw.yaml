@@ -49,3 +49,22 @@ light:
       - flicker:
           alpha: 50%
           intensity: 50%
+      - strobe:
+          name: Christmas
+          colors:
+            - state: true
+              color_mode: RGB
+              brightness: 100%
+              red: 100%
+              green: 0%
+              blue: 0%
+              duration: 10s
+              transition_length: 1s
+            - state: true
+              color_mode: RGB
+              brightness: 100%
+              red: 0%
+              green: 100%
+              blue: 0%
+              duration: 10s
+              transition_length: 1s
