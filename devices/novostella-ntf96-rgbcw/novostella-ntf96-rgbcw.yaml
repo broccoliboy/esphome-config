@@ -7,7 +7,7 @@ substitutions:
 esphome:
   project:
     name: broccoliboy.novostella-ntf96-rgbcw
-    version: "1.0"
+    version: "1.1"
 
 packages:
   hardware: !include ../../hardware/boards/cbu.yaml
