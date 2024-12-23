@@ -79,7 +79,6 @@ fan::FanTraits TuyaFan::get_traits() {
 }
 
 void TuyaFan::control(const fan::FanCall &call) {
-  // ESP_LOGI(TAG, "Controlling tuya fan");
   if (this->oscillation_id_.has_value() && call.get_oscillating().has_value()) {
     if (this->oscillation_type_ == TuyaDatapointType::ENUM) {
       this->parent_->set_enum_datapoint_value(*this->oscillation_id_, *call.get_oscillating());
@@ -92,7 +91,6 @@ void TuyaFan::control(const fan::FanCall &call) {
     this->parent_->set_enum_datapoint_value(*this->direction_id_, enable);
   }
   if (this->speed_id_.has_value() && call.get_speed().has_value()) {
-    // ESP_LOGI(TAG, "Controlling tuya fan speed: %d", call.get_speed().value());
     if (this->speed_type_ == TuyaDatapointType::ENUM) {
       this->parent_->set_enum_datapoint_value(*this->speed_id_, *call.get_speed() - 1);
     } else if (this->speed_type_ == TuyaDatapointType::INTEGER) {
@@ -100,7 +98,6 @@ void TuyaFan::control(const fan::FanCall &call) {
     }
   }
   if (this->switch_id_.has_value() && call.get_state().has_value()) {
-    // ESP_LOGI(TAG, "Controlling tuya fan switch: %s", ONOFF(call.get_state().value()));
     this->parent_->set_boolean_datapoint_value(*this->switch_id_, *call.get_state());
   }
 }
