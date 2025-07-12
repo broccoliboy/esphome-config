@@ -39,6 +39,7 @@ void TuyaFan::setup() {
       ESP_LOGV(TAG, "MCU reported oscillation is: %s", ONOFF(datapoint.value_bool));
       this->oscillating = datapoint.value_bool;
       this->publish_state();
+
       this->oscillation_type_ = datapoint.type;
     });
   }
