@@ -28,16 +28,6 @@ output:
       number: GPIO2
       inverted: true
 
-switch:
-  - platform: output
-    name: "Switch"
-    id: gosund_switch
-    output: gosund_relay
-    on_turn_on:
-      - output.turn_on: gosund_led_green
-    on_turn_off:
-      - output.turn_off: gosund_led_green
-
 binary_sensor:
   - platform: gpio
     id: gosund_button
@@ -52,3 +42,33 @@ binary_sensor:
       max_length: 500ms
       then:
         - switch.toggle: gosund_switch
+
+switch:
+  - platform: template
+    name: "Switch"
+    id: gosund_switch
+    optimistic: true
+    on_turn_on:
+      - output.turn_on: gosund_led_green
+      - if:
+          condition:
+            switch.is_off: dummy
+          then:
+            - output.turn_on: gosund_relay
+    on_turn_off:
+      - output.turn_off: gosund_relay
+      - if:
+          condition:
+            switch.is_off: dummy
+          then:
+            - output.turn_off: gosund_led_green
+  - platform: template
+    name: "Dummy"
+    id: dummy
+    entity_category: "config"
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    on_turn_on:
+      - output.turn_off: gosund_relay
+      - output.turn_on: gosund_led_green
+
