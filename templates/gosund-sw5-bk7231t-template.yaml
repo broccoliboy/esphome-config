@@ -1,0 +1,3 @@
+packages:
+  device: !include ../devices/gosund-sw5-bk7231t/gosund-sw5-bk7231t.yaml
+  template: !include template-base.yaml
