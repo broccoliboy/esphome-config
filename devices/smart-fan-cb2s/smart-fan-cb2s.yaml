@@ -32,6 +32,7 @@ uart:
 
 # Register the Tuya MCU connection
 tuya:
+  ignore_mcu_update_on_datapoints: [20, 22, 26, 60, 62, 64, 66]
 
 switch:
   - platform: tuya
