@@ -16,6 +16,7 @@ enum TuyaColorType {
 class TuyaLight : public Component, public light::LightOutput {
  public:
   void setup() override;
+  void loop() override;
   void dump_config() override;
   void set_dimmer_id(uint8_t dimmer_id) { this->dimmer_id_ = dimmer_id; }
   void set_min_value_datapoint_id(uint8_t min_value_datapoint_id) {
@@ -65,6 +66,12 @@ class TuyaLight : public Component, public light::LightOutput {
   bool color_temperature_invert_{false};
   bool color_interlock_{false};
   light::LightState *state_{nullptr};
+
+  std::unique_ptr<light::LightCall> call_;
+  void mark_for_call();
+  bool need_to_call = false;
+  uint32_t last_call_request_time = 0;
+  uint32_t call_interval = 250; // ms
 };
 
 }  // namespace tuya

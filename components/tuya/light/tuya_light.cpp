@@ -8,6 +8,7 @@ namespace tuya {
 static const char *const TAG = "tuya.light";
 
 void TuyaLight::setup() {
+  this->call_ = std::make_unique<light::LightCall>(this->state_->make_call());
   if (this->color_temperature_id_.has_value()) {
     this->parent_->register_listener(*this->color_temperature_id_, [this](const TuyaDatapoint &datapoint) {
       if (this->state_->current_values != this->state_->remote_values) {
@@ -19,36 +20,34 @@ void TuyaLight::setup() {
       if (this->color_temperature_invert_) {
         datapoint_value = this->color_temperature_max_value_ - datapoint_value;
       }
-      auto call = this->state_->make_call();
-      call.set_color_temperature(this->cold_white_temperature_ +
+      this->call_->set_color_temperature(this->cold_white_temperature_ +
                                  (this->warm_white_temperature_ - this->cold_white_temperature_) *
                                      (float(datapoint_value) / this->color_temperature_max_value_));
-      call.perform();
+      this->mark_for_call();
     });
   }
   if (this->dimmer_id_.has_value()) {
     this->parent_->register_listener(*this->dimmer_id_, [this](const TuyaDatapoint &datapoint) {
+      ESP_LOGI(TAG, "MCU reported dimmer of: %d", datapoint.value_int);
       if (this->state_->current_values != this->state_->remote_values) {
         ESP_LOGD(TAG, "Light is transitioning, datapoint change ignored");
         return;
       }
 
-      auto call = this->state_->make_call();
-      call.set_brightness(float(datapoint.value_uint) / this->max_value_);
-      call.set_state(this->state_->remote_values.is_on());
-      call.perform();
+      this->call_->set_brightness(float(datapoint.value_uint) / this->max_value_);
+      this->mark_for_call();
     });
   }
   if (switch_id_.has_value()) {
     this->parent_->register_listener(*this->switch_id_, [this](const TuyaDatapoint &datapoint) {
+      ESP_LOGI(TAG, "MCU reported switch is: %s", ONOFF(datapoint.value_bool));
       if (this->state_->current_values != this->state_->remote_values) {
         ESP_LOGD(TAG, "Light is transitioning, datapoint change ignored");
         return;
       }
 
-      auto call = this->state_->make_call();
-      call.set_state(datapoint.value_bool);
-      call.perform();
+      this->call_->set_state(datapoint.value_bool);
+      this->mark_for_call();
     });
   }
   if (color_id_.has_value()) {
@@ -87,15 +86,28 @@ void TuyaLight::setup() {
       this->state_->current_values_as_rgb(&current_red, &current_green, &current_blue);
       if (red == current_red && green == current_green && blue == current_blue)
         return;
-      auto rgb_call = this->state_->make_call();
-      rgb_call.set_rgb(red, green, blue);
-      rgb_call.perform();
+      this->call_->set_rgb(red, green, blue);
+      this->mark_for_call();
     });
   }
 
   if (min_value_datapoint_id_.has_value()) {
     this->parent_->set_integer_datapoint_value(*this->min_value_datapoint_id_, this->min_value_);
   }
+}
+
+void TuyaLight::loop() {
+  uint32_t current_time = millis();
+  if (this->need_to_call && ((current_time - this->last_call_request_time) > this->call_interval)) {
+    this->call_->perform();
+    this->call_ = std::make_unique<light::LightCall>(this->state_->make_call()); // reset call to default (empty) values
+    this->need_to_call = false;
+  }
+}
+
+void TuyaLight::mark_for_call() {
+  this->need_to_call = true;
+  this->last_call_request_time = millis();
 }
 
 void TuyaLight::dump_config() {

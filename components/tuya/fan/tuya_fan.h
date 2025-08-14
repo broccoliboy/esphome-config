@@ -11,6 +11,7 @@ class TuyaFan : public Component, public fan::Fan {
  public:
   TuyaFan(Tuya *parent, int speed_count) : parent_(parent), speed_count_(speed_count) {}
   void setup() override;
+  void loop() override;
   void dump_config() override;
   void set_speed_id(uint8_t speed_id) { this->speed_id_ = speed_id; }
   void set_switch_id(uint8_t switch_id) { this->switch_id_ = switch_id; }
@@ -21,6 +22,11 @@ class TuyaFan : public Component, public fan::Fan {
 
  protected:
   void control(const fan::FanCall &call) override;
+
+  void mark_for_state_publish();
+  bool need_to_publish = false;
+  uint32_t last_publish_request_time = 0;
+  uint32_t publish_interval = 250; // ms
 
   Tuya *parent_;
   optional<uint8_t> speed_id_{};

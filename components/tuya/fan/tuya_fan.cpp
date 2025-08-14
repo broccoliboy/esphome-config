@@ -7,47 +7,47 @@ namespace tuya {
 static const char *const TAG = "tuya.fan";
 
 void TuyaFan::setup() {
-  if (this->switch_id_.has_value()) {
-    this->parent_->register_listener(*this->switch_id_, [this](const TuyaDatapoint &datapoint) {
-      ESP_LOGV(TAG, "MCU reported switch is: %s", ONOFF(datapoint.value_bool));
-      this->state = datapoint.value_bool;
-      this->publish_state();
-    });
-  }
   if (this->speed_id_.has_value()) {
     this->parent_->register_listener(*this->speed_id_, [this](const TuyaDatapoint &datapoint) {
       if (datapoint.type == TuyaDatapointType::ENUM) {
-        ESP_LOGV(TAG, "MCU reported speed of: %d", datapoint.value_enum);
+        ESP_LOGI(TAG, "MCU reported speed of: %d", datapoint.value_enum);
         if (datapoint.value_enum >= this->speed_count_) {
           ESP_LOGE(TAG, "Speed has invalid value %d", datapoint.value_enum);
         } else {
           this->speed = datapoint.value_enum + 1;
-          this->publish_state();
+          this->mark_for_state_publish();
         }
       } else if (datapoint.type == TuyaDatapointType::INTEGER) {
-        ESP_LOGV(TAG, "MCU reported speed of: %d", datapoint.value_int);
+        ESP_LOGI(TAG, "MCU reported speed of: %d", datapoint.value_int);
         this->speed = datapoint.value_int;
-        this->publish_state();
+        this->mark_for_state_publish();
       }
       this->speed_type_ = datapoint.type;
+    });
+  }
+  if (this->switch_id_.has_value()) {
+    this->parent_->register_listener(*this->switch_id_, [this](const TuyaDatapoint &datapoint) {
+      ESP_LOGI(TAG, "MCU reported switch is: %s", ONOFF(datapoint.value_bool));
+      this->state = datapoint.value_bool;
+      this->mark_for_state_publish();
     });
   }
   if (this->oscillation_id_.has_value()) {
     this->parent_->register_listener(*this->oscillation_id_, [this](const TuyaDatapoint &datapoint) {
       // Whether data type is BOOL or ENUM, it will still be a 1 or a 0, so the functions below are valid in both
       // scenarios
-      ESP_LOGV(TAG, "MCU reported oscillation is: %s", ONOFF(datapoint.value_bool));
+      ESP_LOGI(TAG, "MCU reported oscillation is: %s", ONOFF(datapoint.value_bool));
       this->oscillating = datapoint.value_bool;
-      this->publish_state();
+      this->mark_for_state_publish();
 
       this->oscillation_type_ = datapoint.type;
     });
   }
   if (this->direction_id_.has_value()) {
     this->parent_->register_listener(*this->direction_id_, [this](const TuyaDatapoint &datapoint) {
-      ESP_LOGD(TAG, "MCU reported reverse direction is: %s", ONOFF(datapoint.value_bool));
+      ESP_LOGI(TAG, "MCU reported reverse direction is: %s", ONOFF(datapoint.value_bool));
       this->direction = datapoint.value_bool ? fan::FanDirection::REVERSE : fan::FanDirection::FORWARD;
-      this->publish_state();
+      this->mark_for_state_publish();
     });
   }
 
@@ -56,6 +56,23 @@ void TuyaFan::setup() {
     if (restored)
       restored->to_call(*this).perform();
   });
+}
+
+void TuyaFan::loop() {
+  // Only call publish_state if need_to_publish flag is true and there has been more than publish_interval ms since the last publish request
+  // This addresses issues where some TuyaMCUs send a burst of datapoints indicating status, which include both state and speed. In these cases
+  // even if state is off the fan will turn on because speed may be nonzero.
+  uint32_t current_time = millis();
+  if (this->need_to_publish && (current_time - this->last_publish_request_time) > this->publish_interval)
+  {
+    this->publish_state();
+    this->need_to_publish = false;
+  }
+}
+
+void TuyaFan::mark_for_state_publish() {
+  this->need_to_publish = true;
+  this->last_publish_request_time = millis();
 }
 
 void TuyaFan::dump_config() {
