@@ -17,10 +17,10 @@ packages:
 
 # need external component for custom tuya module
 external_components:
-  - source: ../components # uncomment to use local components folder for development
-  # - source: github://broccoliboy/esphome-config
-  #   refresh: 0s
-  #   components: [ tuya ]
+  # - source: ../components  # uncomment to use local components folder for development
+  - source: github://broccoliboy/esphome-config
+    refresh: 0s
+    components: [ tuya ]
 
 logger:
   level: INFO
