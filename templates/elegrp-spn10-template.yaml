@@ -1,0 +1,3 @@
+packages:
+  device: !include ../devices/elegrp-spn10/elegrp-spn10.yaml
+  template: !include template-base.yaml
