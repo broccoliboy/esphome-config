@@ -9,7 +9,7 @@ substitutions:
 esphome:
   project:
     name: broccoliboy.wyze-plug-outdoor
-    version: "1.0"
+    version: "1.1"
 
 packages:
   hardware: !include ../../hardware/boards/esp32dev.yaml
@@ -54,7 +54,7 @@ sensor:
     name: Lux
     device_class: illuminance
     unit_of_measurement: lx
-    attenuation: 11db
+    attenuation: 12db
   - platform: hlw8012
     sel_pin:
       number: GPIO25
