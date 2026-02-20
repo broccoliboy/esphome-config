@@ -6,11 +6,12 @@ substitutions:
   name: elegrp-dtr10
   friendly_name: "ELEGRP DTR10 Touch Dimmer Switch"
   comment: ""
+  log_level: DEBUG  # setting to INFO seems to brick the device as of esphome 2025.12.2
 
 esphome:
   project:
     name: "broccoliboy.elegrp-dtr10"
-    version: "1.0"
+    version: "1.1"
 
 packages:
   hardware: !include ../../hardware/boards/cb2s.yaml
@@ -59,7 +60,7 @@ number:
     max_value: 100
     step: 1
     # TuyaMCU scale is 10 to 1000
-    multiply: 10 
+    multiply: 10
   - platform: tuya
     number_datapoint: 108
     name: "Longpress Brightness"
@@ -111,25 +112,25 @@ number:
 select:
   - platform: tuya
     enum_datapoint: 103
-    name: "Fade On Speed"
+    name: "Fade On"
     id: id_select_fade_on_speed
     optimistic: true
     options:
       0: "Immediate"
-      1: "Fast"   # 1s
-      2: "Medium" # 5s
-      3: "Slow"   # 15s
+      1: "1 sec"
+      2: "5 sec"
+      3: "15 sec"
     entity_category: config
   - platform: tuya
     enum_datapoint: 104
-    name: "Fade Off Speed"
+    name: "Fade Off"
     id: id_select_fade_off_speed
     optimistic: true
     options:
       0: "Immediate"
-      1: "Fast"   # 1s
-      2: "Medium" # 5s
-      3: "Slow"   # 15s
+      1: "1 sec"
+      2: "5 sec"
+      3: "15 sec"
     entity_category: config
   - platform: tuya
     enum_datapoint: 4
@@ -137,10 +138,10 @@ select:
     id: id_select_bulb_type
     optimistic: true
     options:
-      0: "Cfl"
+      0: "CFL"
       1: "Incandescent"
       2: "Halogen"
-      3: "Led"
+      3: "LED"
     entity_category: config
 
 light:

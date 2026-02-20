@@ -6,6 +6,7 @@ substitutions:
   name: elegrp-spn10
   friendly_name: "ELEGRP SPN10 Switch"
   comment: ""
+  log_level: DEBUG
 
 esphome:
   project:
