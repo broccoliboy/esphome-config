@@ -11,7 +11,7 @@ substitutions:
 esphome:
   project:
     name: "broccoliboy.elegrp-dtr10"
-    version: "1.1"
+    version: "1.2"
 
 packages:
   hardware: !include ../../hardware/boards/cb2s.yaml
@@ -65,8 +65,9 @@ number:
     number_datapoint: 108
     name: "Longpress Brightness"
     id: id_number_longpress_brightness
-    min_value: 10
-    max_value: 1000
+    min_value: 1
+    max_value: 100
+    multiply: 10
     step: 1
     entity_category: config
   - platform: tuya
@@ -81,8 +82,9 @@ number:
     number_datapoint: 5
     name: "Brightness Max"
     id: id_number_brightness_max
-    min_value: 550
-    max_value: 1000
+    min_value: 55
+    max_value: 100
+    multiply: 10
     step: 1
     entity_category: config
   # User must activate "Set Brightness Min" switch before changing the value of this
@@ -91,7 +93,8 @@ number:
     name: "Brightness Min"
     id: id_number_brightness_min
     min_value: 0
-    max_value: 500
+    max_value: 50
+    multiply: 10
     step: 1
     entity_category: config
   #- platform: tuya
