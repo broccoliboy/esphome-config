@@ -1,0 +1,11 @@
+[project]
+name = "esphome-config"
+version = "0.1.0"
+description = "Custom device profiles for ESPHome"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "esphome>=2026.9.1",
+    "ltchiptool>=4.14.4",
+    "pip>=26.2.1",
+]
