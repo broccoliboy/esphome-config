@@ -2,3 +2,10 @@ button:
   - platform: restart
     id: reboot
     name: Restart
+  - platform: factory_reset
+    id: factory_reset_button
+    name: Factory Reset
+
+factory_reset:
+  resets_required: 5
+  max_delay: 10s

@@ -1,4 +1,4 @@
 binary_sensor:
-  - platform: homeassistant
-    id: day_night
+  - id: day_night
+    platform: homeassistant
     entity_id: input_boolean.day_night

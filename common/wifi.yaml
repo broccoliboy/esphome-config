@@ -6,11 +6,13 @@ wifi:
       password: !secret wifi_password_fallback
 
 sensor:
-  - platform: wifi_signal
+  - id: wifi_signal_sensor
     name: WiFi Signal
+    platform: wifi_signal
 
 text_sensor:
-  - platform: wifi_info
+  - id: wifi_info_sensor
+    platform: wifi_info
     ip_address:
       name: IP
     ssid:
