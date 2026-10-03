@@ -17,40 +17,6 @@ packages:
   hardware: !include ../../hardware/boards/cb2s.yaml
   base: !include ../../common/base.yaml
 
-switch:
-  - platform: gpio
-    name: "Relay"
-    id: output_relay
-    pin:
-      number: P7
-      inverted: False
-    on_turn_on:
-      - light.turn_off: status_led_light
-    on_turn_off:
-      - light.turn_on: status_led_light
-  
-binary_sensor:
-  - platform: gpio
-    id: button_up
-    pin: 
-      number: P6
-      mode:
-        input: True
-        pullup: True
-      inverted: True
-    on_press:
-      - switch.toggle: output_relay
-  - platform: gpio
-    id: button_down
-    pin: 
-      number: P23
-      mode:
-        input: True
-        pullup: True
-      inverted: True
-    on_press:
-      - switch.toggle: output_relay
-
 output:
   # White LED
   - platform: libretiny_pwm
@@ -61,6 +27,83 @@ output:
     frequency: 1000 Hz
     min_power: 0.01
     zero_means_zero: True
+  # Relay output
+  - platform: gpio
+    id: relay_output
+    pin:
+      number: P7
+      inverted: False
+
+switch:
+  - platform: template
+    name: "Relay"
+    id: relay_switch
+    optimistic: true
+    on_turn_on:
+      - if:
+          condition:
+            switch.is_off: dummy
+          then:
+            - output.turn_on: relay_output
+            - light.turn_off: status_led_light
+      # else: do nothing if dummy is on
+    on_turn_off:
+      - if:
+          condition:
+            switch.is_off: dummy
+          then:
+            - output.turn_off: relay_output
+            - light.turn_on: status_led_light
+      # else: do nothing if dummy is on
+  - platform: template
+    name: "Dummy"
+    id: dummy
+    entity_category: "config"
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    on_turn_on:
+      - output.turn_off: relay_output
+      - light.turn_on: status_led_light
+    on_turn_off:
+      - if:
+          condition:
+            switch.is_on: relay_switch
+          then:
+            - output.turn_on: relay_output
+            - light.turn_off: status_led_light
+          else:
+            - output.turn_off: relay_output
+            - light.turn_on: status_led_light
+
+binary_sensor:
+  - platform: gpio
+    id: button_up
+    pin: 
+      number: P6
+      mode:
+        input: True
+        pullup: True
+      inverted: True
+    on_click:
+      - min_length: 50ms
+        max_length: 1s
+        then:
+          - switch.toggle: relay_switch
+      - min_length: 10s
+        max_length: 20s
+        then:
+          - button.press: factory_reset_button
+  - platform: gpio
+    id: button_down
+    pin: 
+      number: P23
+      mode:
+        input: True
+        pullup: True
+      inverted: True
+    on_click:
+      - then:
+          - switch.toggle: relay_switch
 
 light:
   - platform: status_led

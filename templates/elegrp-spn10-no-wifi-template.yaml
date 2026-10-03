@@ -1,0 +1,21 @@
+packages:
+  device: !include ../devices/elegrp-spn10/elegrp-spn10.yaml
+  template: !include template-base.yaml
+
+substitutions:
+  name: elegrp-spn10-no-wifi
+  friendly_name: "ELEGRP SPN10 Switch No WiFi"
+
+api: !remove
+wifi: !remove
+sensor:
+  - id: !remove wifi_signal_sensor
+text_sensor:
+  - id: !remove wifi_info_sensor
+ota: !remove
+web_server: !remove
+binary_sensor:
+  - id: !remove day_night
+  - id: !remove status_sensor
+time: !remove
+sun: !remove
