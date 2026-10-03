@@ -1,8 +1,4 @@
-# include this file after device template so {name} is defined
+# include this file after device template
 
 esphome:
   name_add_mac_suffix: true
-
-dashboard_import:
-  package_import_url: github://broccoliboy/esphome-config/devices/${name}/${name}-import.yaml@main
-  import_full_config: true
