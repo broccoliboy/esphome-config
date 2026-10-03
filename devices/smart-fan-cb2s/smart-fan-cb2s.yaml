@@ -9,7 +9,13 @@ substitutions:
 esphome:
   project:
     name: broccoliboy.smart-fan-cb2s
-    version: "2.0"
+    version: "2.1"
+  on_boot:
+    priority: -100
+    # MCU will turn the light on a few seconds after boot, so we wait a little longer and turn it off
+    then:
+      - delay: 10s
+      - light.turn_off: tuya_light
 
 packages:
   hardware: !include ../../hardware/boards/cb2s.yaml
@@ -17,8 +23,8 @@ packages:
 
 # need external component for custom tuya module
 external_components:
-  # - source: ../components  # uncomment to use local components folder for development
-  - source: github://broccoliboy/esphome-config
+  - source: ../components  # uncomment to use local components folder for development
+  # - source: github://broccoliboy/esphome-config
     refresh: 0s
     components: [ tuya ]
 
